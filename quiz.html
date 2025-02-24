@@ -1,0 +1,3774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT MCQ Quiz</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #f5f5f5;
+        }
+        .quiz-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .question { 
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+        }
+        .options {
+            margin-left: 20px;
+        }
+        .hidden { 
+            display: none; 
+        }
+        .result { 
+            font-weight: bold;
+            color: #28a745;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .section-title {
+            color: #007bff;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .help-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .help-button:hover {
+            background-color: #45a049;
+        }
+        .answer-text {
+            color: #4CAF50;
+            margin-top: 5px;
+            display: none;
+        }
+        .score-container {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .total-score {
+            color: #2196F3;
+            font-weight: bold;
+        }
+        .current-score {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .check-all-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .check-all-button:hover {
+            background-color: #1976D2;
+        }
+        .correct-answer {
+            color: #4CAF50;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+        .incorrect-answer {
+            color: #f44336;
+            font-weight: bold;
+            padding-left: 5px;
+        }
+        .answer-indicator {
+            display: none;
+            margin-left: 10px;
+            font-size: 1.2em;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .question.correct {
+            border-left: 4px solid #4CAF50;
+        }
+        .question.incorrect {
+            border-left: 4px solid #f44336;
+        }
+        .option-container {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .section-result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .section-result.correct {
+            border-left: 4px solid #4CAF50;
+        }
+        .section-result.incorrect {
+            border-left: 4px solid #f44336;
+        }
+        .total-result {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .incorrect-answers {
+            margin-left: 20px;
+        }
+        .section-results {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .reset-button {
+            background-color: #ff5722;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .reset-button:hover {
+            background-color: #f4511e;
+        }
+        .nav-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        .nav-button:hover {
+            background-color: #1976D2;
+        }
+        .nav-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .section-navigation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0;
+            gap: 10px;
+        }
+        .progress-container {
+            background-color: #e3f2fd;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background-color: #4CAF50;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        .progress-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+        .stat-box {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .menu-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 5px 10px;
+            color: #666;
+            float: right;
+        }
+        .menu-button:hover {
+            color: #2196F3;
+        }
+        .result-popup {
+            display: none;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 10px;
+            border-left: 4px solid #2196F3;
+        }
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+        .selected-answer {
+            background: #f5f5f5;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #2196F3;
+        }
+        .options-container {
+            display: block;
+        }
+        .show-options {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="section-title">IoT MCQ Quiz</h1>
+    <div class="progress-container">
+        <h3>Progress Tracker</h3>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-stats">
+            <div class="stat-box">
+                <strong>Questions Answered:</strong> <span id="answered-count">0</span>/270
+            </div>
+            <div class="stat-box">
+                <strong>Remaining:</strong> <span id="remaining-count">270</span>
+            </div>
+            <div class="stat-box">
+                <strong>Current Section Progress:</strong> <span id="section-progress">0/0</span>
+            </div>
+        </div>
+    </div>
+    <div class="section-navigation">
+        <button onclick="previousSection()" class="nav-button" id="prev-button">← Previous</button>
+        <select id="section-select">
+            <option value="basic">Basic IoT Concepts</option>
+            <option value="architecture">IoT History & Architecture</option>
+            <option value="applications">IoT Characteristics & Applications</option>
+            <option value="devices">Smart Devices (Refrigerators)</option>
+            <option value="cars">Smart Cars (IoT Vehicles)</option>
+            <option value="arduino">Arduino Programming</option>
+            <option value="arduino_basic">Arduino Basic Programming</option>
+            <option value="arduino_led">Arduino LED Projects</option>
+            <option value="arduino_power">Arduino Power Pins</option>
+            <option value="arduino_analog">Arduino Analog Pins</option>
+            <option value="arduino_communication">Arduino Communication</option>
+            <option value="arduino_digital">Arduino Digital Pins</option>
+            <option value="arduino_ir_ldr">Arduino IR & LDR Sensors</option>
+            <option value="arduino_sensors">Arduino Sensors & Actuators</option>
+            <option value="iot_sensors">IoT Sensors & Actuators</option>
+            <option value="iot_networking">IoT Networking & Protocols</option>
+            <option value="iot_protocols">IoT Communication Protocols</option>
+            <option value="iot_connectivity">IoT Connectivity</option>
+            <option value="arduino_pins">Arduino Pins & Hardware</option>
+            <option value="iot_security">IoT Security</option>
+            <option value="iot_analytics">IoT Data Analytics</option>
+            <option value="iot_cloud">IoT Cloud Computing</option>
+            <option value="iot_privacy">IoT Privacy and Ethics</option>
+            <option value="iot_industry">IoT Industry Applications</option>
+            <option value="iot_standards">IoT Standards and Regulations</option>
+            <option value="iot_architecture">IoT Architecture and Implementation</option>
+            <option value="iot_future">IoT Future Trends and Innovations</option>
+        </select>
+        <button onclick="nextSection()" class="nav-button" id="next-button">Next →</button>
+    </div>
+    <div class="nav-buttons">
+        <div class="button-group">
+            <button onclick="submitQuiz()">Submit Current Section</button>
+            <button onclick="checkAllSections()" class="check-all-button">Check All Sections</button>
+            <button onclick="showAllAnswers()" class="help-button">Show All Answers</button>
+            <button onclick="resetQuiz()" class="reset-button">Reset Quiz</button>
+        </div>
+    </div>
+    <div class="score-container">
+        <p>Current Section Score: <span id="current-score" class="current-score">0/0</span></p>
+        <p>Total Quiz Score: <span id="total-score" class="total-score">0/270</span></p>
+    </div>
+    <div id="quiz-container"></div>
+    <div id="results"></div>
+    <script>
+        const quizData = {
+            basic: [
+                {
+                    q: "What is the Internet of Things (IoT)?",
+                    options: [
+                        "A network of traditional computers connected to each other",
+                        "Connecting everyday devices embedded with sensors, electronics, and software to collect and exchange data",
+                        "A system that only focuses on wearable devices",
+                        "A mechanism to control internet traffic"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is NOT an example of an IoT device?",
+                    options: [
+                        "Smart thermostat",
+                        "Desktop computer",
+                        "Smart refrigerator",
+                        "Heart monitoring implant"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the primary purpose of the Application Layer in IoT architecture?",
+                    options: [
+                        "Providing real-time data processing and analytics",
+                        "Offering user interfaces for various applications",
+                        "Ensuring robust communication between devices",
+                        "Managing physical devices like sensors and actuators"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which layer of IoT architecture handles communication requirements like latency and security?",
+                    options: [
+                        "Sensing Layer",
+                        "Network Layer",
+                        "Application Service Layer",
+                        "Cloud Layer"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is a characteristic of IoT systems?",
+                    options: [
+                        "Manual configuration",
+                        "Single-layered architecture",
+                        "Real-time capability",
+                        "Limited network communication"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What ensures compatibility and interoperability in IoT systems?",
+                    options: [
+                        "Auto-configuration",
+                        "Modular design",
+                        "Network management",
+                        "Discoverability"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of these is NOT a potential application of IoT?",
+                    options: [
+                        "Smart transportation",
+                        "DNA analysis devices",
+                        "Manual typewriters",
+                        "Weather monitoring systems"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What feature makes IoT-enabled agriculture systems more efficient?",
+                    options: [
+                        "Manual tracking of weather patterns",
+                        "Integration of soil sensors and remote monitoring",
+                        "Use of traditional irrigation techniques",
+                        "Eliminating technology from farming"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which is a major challenge in IoT implementation?",
+                    options: [
+                        "Improved resource utilization",
+                        "Scalability and security",
+                        "Reduced software complexity",
+                        "Decreased privacy concerns"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does IoT contribute to minimizing human effort?",
+                    options: [
+                        "By introducing manual interfaces for devices",
+                        "By automating data collection and device interaction",
+                        "By eliminating the need for technology",
+                        "By replacing sensors with traditional methods"
+                    ],
+                    answer: 1
+                }
+            ],
+            architecture: [
+                {
+                    q: "Who invented the barcode, and in what year?",
+                    options: [
+                        "Kevin Ashton, 1990",
+                        "Mario Cardullo, 1973",
+                        "Norman Joseph Woodland, 1945",
+                        "MIT Researchers, 2004"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What was the first wearable computer designed for?",
+                    options: [
+                        "Lip reading assistance",
+                        "Shoe tracking",
+                        "Remote communication",
+                        "Video gaming"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which technology revolutionized retailing in the 1970s?",
+                    options: [
+                        "Barcodes",
+                        "RFID Tags",
+                        "IoT Sensors",
+                        "GPS Tracking"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What was a significant application of IoT in the 1980s?",
+                    options: [
+                        "Smart thermostats",
+                        "Coke vending machines monitoring inventory",
+                        "Self-driving cars",
+                        "Home healthcare systems"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the function of the Sensing Layer in IoT architecture?",
+                    options: [
+                        "Encrypt data communication",
+                        "Provide an interface for IoT usage",
+                        "Perform data analytics",
+                        "Manage network connectivity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is NOT part of the IoT architecture layers?",
+                    options: [
+                        "Application Support Layer",
+                        "Data Visualization Layer",
+                        "Network Layer",
+                        "Sensing Layer"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What technology is used in the Network Layer for communication?",
+                    options: [
+                        "Gyroscope",
+                        "Accelerometer",
+                        "GSM and LTE",
+                        "RFID Tags"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of the Application Service Layer?",
+                    options: [
+                        "Predictive analytics",
+                        "Periodic sensory data analytics",
+                        "Historical data visualization",
+                        "Image processing"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which is considered the lowest abstraction layer in IoT?",
+                    options: [
+                        "Application Layer",
+                        "Network Layer",
+                        "Cloud Services Layer",
+                        "End Device/Sensor Layer"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What was a significant IoT milestone at MIT's Auto ID Center?",
+                    options: [
+                        "Development of GPS sensors",
+                        "RFID technology to connect objects",
+                        "Launch of IoT healthcare systems",
+                        "Introduction of 5G networking"
+                    ],
+                    answer: 1
+                }
+            ],
+            applications: [
+                {
+                    q: "What defines a 'Thing' in IoT?",
+                    options: [
+                        "A computer",
+                        "Any entity with unique identification and data transfer ability",
+                        "A device connected only via WiFi",
+                        "A machine with manual operation"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is NOT an example of an IoT device?",
+                    options: [
+                        "Biochip transponder",
+                        "Heart monitoring implant",
+                        "Manual typewriter",
+                        "Automobile with sensors"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is a key feature of IoT systems?",
+                    options: [
+                        "Centralized control",
+                        "High latency",
+                        "Real-time capability",
+                        "No data sharing"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which characteristic is associated with IoT service systems?",
+                    options: [
+                        "Auto-configuration",
+                        "Legacy support",
+                        "Modularity",
+                        "Content-awareness"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What does modularity in IoT refer to?",
+                    options: [
+                        "Device integration",
+                        "Ease of replacement or upgrade",
+                        "Security enhancements",
+                        "Network management"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which benefit is attributed to IoT?",
+                    options: [
+                        "High human intervention",
+                        "Inefficient resource utilization",
+                        "Minimizing human effort",
+                        "Longer processing times"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is a major challenge faced by IoT systems?",
+                    options: [
+                        "Lack of scalability",
+                        "Power supply and battery life",
+                        "Simple technological standards",
+                        "Limited application areas"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a primary application of IoT in healthcare?",
+                    options: [
+                        "Smart thermostats",
+                        "Heart monitoring implants",
+                        "Agricultural irrigation systems",
+                        "Smart lighting systems"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What does 'time-awareness' in IoT systems mean?",
+                    options: [
+                        "Devices function only at specific times",
+                        "Devices prioritize real-time data processing",
+                        "Time synchronization with GPS satellites",
+                        "Awareness of network bandwidth"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which IoT product allows for cloud-based weather monitoring?",
+                    options: [
+                        "Raspberry Pi with DHT11 sensor",
+                        "Fitbit bands",
+                        "Google Nest thermostat",
+                        "Philips Hue bulbs"
+                    ],
+                    answer: 0
+                }
+            ],
+            devices: [
+                {
+                    q: "What does an IoT refrigerator typically integrate to enhance its functionality?",
+                    options: [
+                        "Computational intelligence and Internet connectivity",
+                        "Traditional cooling mechanisms only",
+                        "Manual temperature adjustment systems",
+                        "A full computer with a keyboard and mouse"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which feature of an IoT refrigerator does NOT require Internet connectivity?",
+                    options: [
+                        "Door ajar warning system",
+                        "Suggesting recipes based on ingredients",
+                        "Sending grocery lists to a smartphone",
+                        "Notifying about water filter replacement"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "How does an IoT refrigerator detect when the door is ajar?",
+                    options: [
+                        "By measuring the temperature inside the fridge",
+                        "Using sensors to detect the position of the door",
+                        "By weighing the food inside the refrigerator",
+                        "Using a timer for door usage"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a common way an IoT refrigerator can suggest recipes?",
+                    options: [
+                        "By analyzing external recipes via the Internet",
+                        "By weighing the food and suggesting items to purchase",
+                        "By detecting available ingredients using cameras or sensors",
+                        "By requiring the user to input all the ingredients manually"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which of the following could be a feature of an IoT refrigerator?",
+                    options: [
+                        "Alerting when food is about to expire",
+                        "Cooking meals automatically",
+                        "Printing grocery receipts",
+                        "Changing its size based on food stored"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What technology might an IoT refrigerator use to track the quantity of food items like butter?",
+                    options: [
+                        "Weight sensors or cameras",
+                        "Manual scanning of items",
+                        "Thermal imaging",
+                        "Barcode readers"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Why is computational intelligence important for an IoT refrigerator?",
+                    options: [
+                        "It helps the refrigerator look modern",
+                        "It enables features like monitoring, notifications, and analysis",
+                        "It removes the need for sensors",
+                        "It replaces the cooling mechanism"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which advanced IoT refrigerator feature requires Internet connectivity?",
+                    options: [
+                        "Keeping track of expiration dates",
+                        "Automatically reordering groceries online",
+                        "Beeping when the door is open too long",
+                        "Displaying the internal temperature"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does an IoT refrigerator help with diet management?",
+                    options: [
+                        "By suggesting high-fat foods",
+                        "By analyzing food items for nutritional content",
+                        "By recommending fast food options",
+                        "By cooking healthy meals directly"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What differentiates an IoT refrigerator from a traditional refrigerator?",
+                    options: [
+                        "Advanced cooling mechanisms",
+                        "Integration of sensors, computational intelligence, and network connectivity",
+                        "Manual controls for temperature adjustment",
+                        "Increased electricity usage without additional functionality"
+                    ],
+                    answer: 1
+                }
+            ],
+            cars: [
+                {
+                    q: "What defines an IoT car?",
+                    options: [
+                        "A car with a manual transmission",
+                        "A car with sensors, computational intelligence, and network connectivity",
+                        "A car designed for racing",
+                        "A car without any electronic systems"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What does the anti-lock braking system (ABS) in IoT cars do?",
+                    options: [
+                        "Prevents the tires from locking during braking",
+                        "Automatically accelerates the car",
+                        "Turns off the engine during emergencies",
+                        "Warns about low fuel levels"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which IoT feature allows remote start of a car?",
+                    options: [
+                        "GPS connectivity",
+                        "Network connectivity",
+                        "Local computing power",
+                        "Fuel injection system"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How do modern IoT cars enhance safety during emergencies?",
+                    options: [
+                        "By sending alerts to the driver through email",
+                        "By automatically notifying emergency services through the network",
+                        "By stopping the car in traffic",
+                        "By activating a louder horn"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is an example of an IoT-enabled feature in cars?",
+                    options: [
+                        "Manual steering control",
+                        "Real-time traffic updates on navigation systems",
+                        "Analog radio systems",
+                        "Carburetor-based fuel systems"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main advantage of IoT cars having multiple processors?",
+                    options: [
+                        "They reduce fuel consumption",
+                        "They handle specific tasks like braking, fuel injection, and entertainment",
+                        "They eliminate the need for mechanical parts",
+                        "They make the car lighter in weight"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which technology helps IoT cars provide accurate navigation and location tracking?",
+                    options: [
+                        "Accelerometer",
+                        "GPS",
+                        "Bluetooth",
+                        "Fuel injection system"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What benefit does IoT bring to car users?",
+                    options: [
+                        "Increased manual operation of car features",
+                        "Enhanced safety, convenience, and connectivity",
+                        "Limited access to real-time data",
+                        "Restriction on automation features"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How do IoT cars assist in fuel efficiency?",
+                    options: [
+                        "By automating gear shifts during driving",
+                        "By providing data on fuel consumption patterns",
+                        "By eliminating the need for fuel entirely",
+                        "By turning off the engine at high speeds"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What IoT-enabled feature can improve the maintenance of a car?",
+                    options: [
+                        "Automated braking",
+                        "Predictive alerts for oil changes or part replacements",
+                        "Manual diagnostics by a technician",
+                        "Higher fuel capacity"
+                    ],
+                    answer: 1
+                }
+            ],
+            arduino: [
+                // Next 20 questions here
+            ],
+            arduino_basic: [
+                {
+                    q: "What is the main programming language used for Arduino development?",
+                    options: [
+                        "Python",
+                        "C++",
+                        "Java",
+                        "Ruby"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which software is used to write and upload code to an Arduino board?",
+                    options: [
+                        "Visual Studio",
+                        "Eclipse",
+                        "Arduino IDE",
+                        "CodeBlocks"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What function is required in every Arduino sketch?",
+                    options: [
+                        "loop()",
+                        "setup()",
+                        "main()",
+                        "Both setup() and loop()"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What does the setup() function do in an Arduino sketch?",
+                    options: [
+                        "Runs continuously",
+                        "Initializes variables and pin modes",
+                        "Executes once at the end of the program",
+                        "It is not necessary in Arduino"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which function runs continuously in an Arduino sketch?",
+                    options: [
+                        "loop()",
+                        "setup()",
+                        "main()",
+                        "start()"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the default baud rate for serial communication in Arduino?",
+                    options: [
+                        "4800",
+                        "9600",
+                        "14400",
+                        "115200"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the role of the pinMode() function?",
+                    options: [
+                        "Reads data from a pin",
+                        "Configures a pin as input or output",
+                        "Sends data to a pin",
+                        "None of the above"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What command is used to send data to the serial monitor?",
+                    options: [
+                        "Serial.read()",
+                        "Serial.write()",
+                        "Serial.print()",
+                        "Serial.begin()"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which Arduino board has built-in Wi-Fi capability?",
+                    options: [
+                        "Arduino Uno",
+                        "Arduino Mega",
+                        "Arduino Nano",
+                        "Arduino ESP8266"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What is the purpose of the delay() function in Arduino?",
+                    options: [
+                        "Stops the Arduino board",
+                        "Creates a delay in execution",
+                        "Reads sensor values",
+                        "Configures pin modes"
+                    ],
+                    answer: 1
+                }
+            ],
+            arduino_led: [
+                {
+                    q: "What is the default time delay used in the Arduino Blink example?",
+                    options: [
+                        "100ms",
+                        "500ms",
+                        "1000ms",
+                        "2000ms"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which pin is the built-in LED connected to on an Arduino Uno?",
+                    options: [
+                        "Pin 5",
+                        "Pin 7",
+                        "Pin 10",
+                        "Pin 13"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "Which function is used to turn an LED ON in Arduino?",
+                    options: [
+                        "analogWrite(pin, HIGH)",
+                        "digitalWrite(pin, HIGH)",
+                        "setPin(pin, HIGH)",
+                        "ledON(pin)"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of the delay() function in the LED blink sketch?",
+                    options: [
+                        "To keep the LED on permanently",
+                        "To stop the loop from running",
+                        "To create a pause between ON and OFF states",
+                        "To turn off the LED"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "How do you modify the Blink example to make the LED blink twice as fast?",
+                    options: [
+                        "Increase the delay time",
+                        "Decrease the delay time",
+                        "Use analogWrite() instead of digitalWrite()",
+                        "Change the pin number"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which function is used to control the brightness of an LED in Arduino?",
+                    options: [
+                        "analogWrite(pin, value)",
+                        "digitalWrite(pin, value)",
+                        "setPWM(pin, value)",
+                        "ledBrightness(pin, value)"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the range of values for analogWrite() in Arduino?",
+                    options: [
+                        "0 to 100",
+                        "0 to 255",
+                        "0 to 1023",
+                        "0 to 5000"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which pins on Arduino Uno support PWM output?",
+                    options: [
+                        "2, 4, 6, 8",
+                        "3, 5, 6, 9, 10, 11",
+                        "1, 3, 7, 9",
+                        "All digital pins"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What symbol is used to indicate PWM-supported pins on an Arduino Uno?",
+                    options: [
+                        "*",
+                        "~",
+                        "#",
+                        "%"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main difference between analogWrite() and digitalWrite()?",
+                    options: [
+                        "digitalWrite() allows only ON/OFF states, while analogWrite() can control brightness",
+                        "analogWrite() is used for digital signals, digitalWrite() for analog signals",
+                        "digitalWrite() supports PWM, while analogWrite() does not",
+                        "There is no difference"
+                    ],
+                    answer: 0
+                }
+            ],
+            arduino_power: [
+                {
+                    q: "How many power pins are available on an Arduino Uno?",
+                    options: [
+                        "3",
+                        "5",
+                        "6",
+                        "8"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the function of the VIN pin on an Arduino Uno?",
+                    options: [
+                        "Provides 3.3V output",
+                        "Provides 5V regulated output",
+                        "Used to supply external power (7-12V)",
+                        "Acts as ground"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the typical voltage range that can be supplied through the VIN pin?",
+                    options: [
+                        "3.3V - 5V",
+                        "5V - 9V",
+                        "7V - 12V",
+                        "12V - 24V"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the purpose of the 5V pin on an Arduino Uno?",
+                    options: [
+                        "Provides regulated 5V output",
+                        "Acts as a ground pin",
+                        "Used to connect analog sensors",
+                        "Provides direct power from USB"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the function of the 3.3V pin on an Arduino Uno?",
+                    options: [
+                        "Supplies power to 3.3V-compatible devices",
+                        "Acts as a ground pin",
+                        "Provides direct power from the USB",
+                        "Used for PWM output"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "How much current can the 3.3V pin of an Arduino Uno supply?",
+                    options: [
+                        "10mA",
+                        "20mA",
+                        "50mA",
+                        "150mA"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What is the function of the GND (Ground) pin on Arduino Uno?",
+                    options: [
+                        "Provides power",
+                        "Acts as a reference point for voltage levels",
+                        "Controls digital output",
+                        "Converts analog signals to digital"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How many ground (GND) pins are available on an Arduino Uno?",
+                    options: [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the maximum current that can be drawn from the 5V pin of an Arduino Uno?",
+                    options: [
+                        "200mA",
+                        "500mA",
+                        "1A",
+                        "2A"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "If powered via USB, what is the voltage supplied to the 5V pin?",
+                    options: [
+                        "3.3V",
+                        "4.5V",
+                        "5V",
+                        "9V"
+                    ],
+                    answer: 2
+                }
+            ],
+            arduino_communication: [
+                {
+                    q: "What does SPI stand for in Arduino communication?",
+                    options: [
+                        "Serial Port Interface",
+                        "Serial Peripheral Interface",
+                        "Synchronous Peripheral Interface",
+                        "Serial Parallel Interface"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How many wires are required for SPI communication in Arduino (excluding power and ground)?",
+                    options: [
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which of the following is NOT a standard SPI line?",
+                    options: [
+                        "MISO",
+                        "MOSI",
+                        "SCL",
+                        "SCK"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which pin on Arduino Uno is used for SPI MOSI (Master Out Slave In)?",
+                    options: [
+                        "D10",
+                        "D11",
+                        "D12",
+                        "D13"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the role of the SS (Slave Select) pin in SPI communication?",
+                    options: [
+                        "It synchronizes data transmission",
+                        "It selects which slave device to communicate with",
+                        "It generates the clock signal",
+                        "It sends data from master to slave"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How many wires are required for I2C communication?",
+                    options: [
+                        "1",
+                        "2",
+                        "3",
+                        "4"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What are the names of the two main I2C lines?",
+                    options: [
+                        "TX and RX",
+                        "MISO and MOSI",
+                        "SDA and SCL",
+                        "SS and SCK"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which pins are used for I2C communication in Arduino Uno?",
+                    options: [
+                        "A4 (SDA), A5 (SCL)",
+                        "D10 (SDA), D11 (SCL)",
+                        "D0 (SDA), D1 (SCL)",
+                        "A0 (SDA), A1 (SCL)"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the typical clock speed of I2C on Arduino Uno?",
+                    options: [
+                        "100 Hz",
+                        "1 kHz",
+                        "100 kHz",
+                        "1 MHz"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "How many devices can be connected on a single I2C bus?",
+                    options: [
+                        "2",
+                        "8",
+                        "127",
+                        "255"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the default baud rate for Serial communication in Arduino?",
+                    options: [
+                        "4800",
+                        "9600",
+                        "115200",
+                        "57600"
+                    ],
+                    answer: 1
+                }
+            ],
+            arduino_digital: [
+                {
+                    q: "How many digital I/O pins are available on an Arduino Uno?",
+                    options: [
+                        "10",
+                        "12",
+                        "14",
+                        "16"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What are the pin numbers for the digital I/O pins on Arduino Uno?",
+                    options: [
+                        "D0 to D13",
+                        "A0 to A5",
+                        "D1 to D14",
+                        "D2 to D15"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which function is used to set a digital pin as an input or output?",
+                    options: [
+                        "pinMode(pin, mode);",
+                        "setPin(pin, mode);",
+                        "digitalSet(pin, mode);",
+                        "pinSetup(pin, mode);"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which function is used to read the status of a digital input pin?",
+                    options: [
+                        "analogRead(pin);",
+                        "digitalRead(pin);",
+                        "pinRead(pin);",
+                        "readDigital(pin);"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What are the possible values returned by the digitalRead() function?",
+                    options: [
+                        "0 to 255",
+                        "0 to 1023",
+                        "HIGH or LOW",
+                        "1 to 10"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "How do you set a digital pin HIGH in Arduino Uno?",
+                    options: [
+                        "digitalWrite(pin, HIGH);",
+                        "setHigh(pin);",
+                        "writeDigital(pin, 1);",
+                        "pinMode(pin, HIGH);"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which digital pins on Arduino Uno can be used for PWM?",
+                    options: [
+                        "Pins 3, 5, 6, 9, 10, and 11",
+                        "All digital pins",
+                        "Only analog pins",
+                        "Pins 0 and 1"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the frequency of PWM signals on most Arduino Uno digital pins?",
+                    options: [
+                        "100 Hz",
+                        "490 Hz",
+                        "1 kHz",
+                        "10 kHz"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the range of values accepted by the analogWrite() function for PWM?",
+                    options: [
+                        "0 to 100",
+                        "0 to 255",
+                        "0 to 1023",
+                        "0 to 5000"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What happens if you exceed the current limit on a digital pin?",
+                    options: [
+                        "The pin increases power output",
+                        "The microcontroller may be damaged",
+                        "The pin automatically adjusts the current",
+                        "Nothing, it will continue working normally"
+                    ],
+                    answer: 1
+                }
+            ],
+            arduino_ir_ldr: [
+                {
+                    q: "What does an IR sensor primarily detect?",
+                    options: [
+                        "Sound waves",
+                        "Magnetic fields",
+                        "Infrared light",
+                        "Ultrasonic waves"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which component in an IR sensor emits infrared light?",
+                    options: [
+                        "IR Receiver",
+                        "Photodiode",
+                        "IR LED",
+                        "LDR"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What happens when an obstacle is detected by an IR sensor?",
+                    options: [
+                        "The IR sensor turns OFF",
+                        "The IR sensor sends a LOW signal",
+                        "The IR sensor sends a HIGH signal",
+                        "The IR LED stops emitting"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which function is used in Arduino to read the digital output of an IR sensor?",
+                    options: [
+                        "digitalRead(pin);",
+                        "analogRead(pin);",
+                        "sensorRead(pin);",
+                        "irDetect(pin);"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "If an IR sensor is connected to pin 7 of Arduino, how can you check if an obstacle is detected?",
+                    options: [
+                        "if (digitalRead(7) == HIGH) {}",
+                        "if (digitalRead(7) == LOW) {}",
+                        "if (analogRead(7) > 500) {}",
+                        "if (digitalWrite(7) == HIGH) {}"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the typical range of an IR sensor used with Arduino?",
+                    options: [
+                        "1-2 meters",
+                        "2-10 cm",
+                        "10-50 meters",
+                        "50-100 cm"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main limitation of an IR sensor in object detection?",
+                    options: [
+                        "Cannot work in the dark",
+                        "Affected by ambient infrared light",
+                        "Needs direct contact with objects",
+                        "Cannot detect metal objects"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What does an LDR sensor measure?",
+                    options: [
+                        "Temperature",
+                        "Light intensity",
+                        "Humidity",
+                        "Magnetic field"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the full form of LDR?",
+                    options: [
+                        "Light Dim Resistance",
+                        "Light Dependent Resistor",
+                        "Low Dim Resistor",
+                        "Laser Detection Resistor"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does the resistance of an LDR change with increasing light intensity?",
+                    options: [
+                        "Increases",
+                        "Decreases",
+                        "Remains constant",
+                        "Becomes zero"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What factor affects the performance of an IR sensor the most?",
+                    options: [
+                        "Humidity",
+                        "Infrared interference from sunlight",
+                        "Wind speed",
+                        "Sound vibrations"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What happens when an IR sensor is placed in direct sunlight?",
+                    options: [
+                        "It works more efficiently",
+                        "It stops detecting objects properly",
+                        "It detects obstacles at a longer range",
+                        "It requires an external amplifier"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How can you improve the accuracy of an IR sensor?",
+                    options: [
+                        "Use an ultrasonic sensor instead",
+                        "Use a filter to block unwanted infrared light",
+                        "Reduce the power supply voltage",
+                        "Use a stronger IR LED"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which function is used to read the value from an LDR connected to an Arduino?",
+                    options: [
+                        "digitalRead(pin);",
+                        "analogRead(pin);",
+                        "lightRead(pin);",
+                        "sensorRead(pin);"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "If an LDR is connected to A0, which of the following is the correct way to store its value?",
+                    options: [
+                        "int value = analogRead(A0);",
+                        "int value = digitalRead(A0);",
+                        "int value = sensorRead(A0);",
+                        "int value = lightRead(A0);"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the typical range of values read from an LDR using analogRead()?",
+                    options: [
+                        "0 to 255",
+                        "0 to 1023",
+                        "0 to 4095",
+                        "0 to 65535"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which circuit component is often used with an LDR to create a voltage divider circuit?",
+                    options: [
+                        "Capacitor",
+                        "Inductor",
+                        "Resistor",
+                        "Transistor"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is a common application of an LDR in Arduino projects?",
+                    options: [
+                        "Temperature measurement",
+                        "Sound level detection",
+                        "Automatic streetlights",
+                        "Water level sensing"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "How do you turn on an LED in an Arduino project using an LDR?",
+                    options: [
+                        "Read LDR value using analogRead(), compare, and use digitalWrite(LED, HIGH);",
+                        "Connect LDR directly to LED",
+                        "Use digitalRead() to detect light levels",
+                        "LDR cannot be used to turn on an LED"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "How can an LDR be protected from false readings due to external light sources?",
+                    options: [
+                        "Place it in a transparent case",
+                        "Cover it with a dark cloth",
+                        "Use a narrow tube to limit light exposure",
+                        "Connect it directly to VCC"
+                    ],
+                    answer: 2
+                }
+            ],
+            arduino_sensors: [
+                {
+                    q: "What type of sensor detects the presence of nearby objects without physical contact?",
+                    options: [
+                        "Proximity Sensor",
+                        "Temperature Sensor",
+                        "Humidity Sensor",
+                        "Force Sensor"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which sensor is commonly used in automatic lighting systems to detect ambient light levels?",
+                    options: [
+                        "IR Sensor",
+                        "LDR (Light Dependent Resistor)",
+                        "Pressure Sensor",
+                        "Motion Sensor"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What kind of actuator is a DC motor?",
+                    options: [
+                        "Mechanical Actuator",
+                        "Electromechanical Actuator",
+                        "Pneumatic Actuator",
+                        "Hydraulic Actuator"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which technology helps IoT cars provide accurate navigation and location tracking?",
+                    options: [
+                        "Accelerometer",
+                        "GPS",
+                        "Bluetooth",
+                        "Fuel injection system"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the primary purpose of IoT networking protocols?",
+                    options: [
+                        "To enable communication between IoT devices",
+                        "To store data in the cloud",
+                        "To process sensor data",
+                        "To power IoT devices"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is specifically designed for resource-constrained IoT devices?",
+                    options: [
+                        "HTTP",
+                        "CoAP",
+                        "FTP",
+                        "TCP"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is MQTT in IoT?",
+                    options: [
+                        "A lightweight messaging protocol",
+                        "A security protocol",
+                        "A routing protocol",
+                        "A data storage protocol"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which network layer protocol is commonly used in IoT?",
+                    options: [
+                        "6LoWPAN",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the advantage of using CoAP in IoT?",
+                    options: [
+                        "High bandwidth usage",
+                        "Complex implementation",
+                        "Low overhead and resource usage",
+                        "Better security"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which wireless protocol is best suited for short-range IoT communication?",
+                    options: [
+                        "Bluetooth Low Energy",
+                        "Cellular",
+                        "Satellite",
+                        "LoRaWAN"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the main advantage of using LoRaWAN in IoT?",
+                    options: [
+                        "High data rate",
+                        "Long range and low power",
+                        "Short range communication",
+                        "Complex implementation"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which protocol is used for secure communication in IoT?",
+                    options: [
+                        "HTTP",
+                        "MQTT",
+                        "HTTPS",
+                        "FTP"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of IPv6 in IoT?",
+                    options: [
+                        "Provide more IP addresses",
+                        "Reduce power consumption",
+                        "Increase security",
+                        "Improve data storage"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is best suited for real-time IoT applications?",
+                    options: [
+                        "MQTT",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What does IoT stand for?",
+                    options: [
+                        "Internet of Things",
+                        "Internet of Technology",
+                        "Intelligent Operating Technology",
+                        "Interconnected Objects and Things"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which of the following is NOT an IoT connectivity terminology?",
+                    options: [
+                        "IoT LAN",
+                        "IoT WAN",
+                        "IoT Proxy",
+                        "IoT RAM"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What is the function of an IoT Gateway?",
+                    options: [
+                        "It connects IoT LAN to IoT WAN",
+                        "It acts as an IoT database",
+                        "It powers IoT devices",
+                        "It encrypts IoT communications"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of an IoT Proxy?",
+                    options: [
+                        "To provide power to IoT devices",
+                        "To perform active application layer functions",
+                        "To assign IP addresses to IoT devices",
+                        "To act as a storage unit"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which protocol is often compared to HTTP in IoT applications?",
+                    options: [
+                        "SMTP",
+                        "CoAP",
+                        "TCP",
+                        "FTP"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is CoAP stand for?",
+                    options: [
+                        "Control Access Protocol",
+                        "Constrained Application Protocol",
+                        "Cloud Access Protocol",
+                        "Configurable Application Protocol"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which transport protocol is commonly used with CoAP?",
+                    options: [
+                        "TCP",
+                        "UDP",
+                        "FTP",
+                        "ICMP"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Why is UDP preferred over TCP in IoT applications?",
+                    options: [
+                        "It is more reliable",
+                        "It consumes less power and has lower overhead",
+                        "It supports encryption",
+                        "It can store more data"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is an advantage of 6LoWPAN in IoT networks?",
+                    options: [
+                        "Supports IPv4 addressing",
+                        "End-to-end IP addressability",
+                        "High power consumption",
+                        "Large packet sizes"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is an advantage of using an IoT mesh network?",
+                    options: [
+                        "High energy consumption",
+                        "Supports self-healing and scalability",
+                        "Requires extensive cabling",
+                        "Does not support IPv6"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of VPN in IoT networks?",
+                    options: [
+                        "Secure remote access",
+                        "Data storage",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for email communication in IoT?",
+                    options: [
+                        "SMTP",
+                        "HTTP",
+                        "FTP",
+                        "SSH"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the role of IPv6 in IoT networking?",
+                    options: [
+                        "Provide more IP addresses",
+                        "Data storage",
+                        "Security",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides file transfer capabilities?",
+                    options: [
+                        "FTP",
+                        "HTTP",
+                        "SMTP",
+                        "SSH"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of network virtualization in IoT?",
+                    options: [
+                        "Resource optimization",
+                        "Data storage",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for web-based communication?",
+                    options: [
+                        "HTTP/HTTPS",
+                        "FTP",
+                        "SMTP",
+                        "SSH"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the function of a load balancer in IoT?",
+                    options: [
+                        "Distribute network traffic",
+                        "Store data",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides real-time communication?",
+                    options: [
+                        "WebSocket",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of network redundancy?",
+                    options: [
+                        "Ensure system reliability",
+                        "Store data",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for device discovery?",
+                    options: [
+                        "UPnP",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the role of a CDN in IoT?",
+                    options: [
+                        "Content delivery optimization",
+                        "Data storage",
+                        "Security",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides network time synchronization?",
+                    options: [
+                        "NTP",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of network QoS?",
+                    options: [
+                        "Traffic prioritization",
+                        "Data storage",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for remote procedure calls?",
+                    options: [
+                        "gRPC",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the function of a reverse proxy?",
+                    options: [
+                        "Load distribution and security",
+                        "Data storage",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides service mesh capabilities?",
+                    options: [
+                        "Istio",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of network isolation?",
+                    options: [
+                        "Security enhancement",
+                        "Data storage",
+                        "Process analytics",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for streaming data?",
+                    options: [
+                        "MQTT",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the role of SDN in IoT networks?",
+                    options: [
+                        "Network programmability",
+                        "Data storage",
+                        "Security",
+                        "Power management"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides service registration?",
+                    options: [
+                        "Consul",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the role of edge computing in IoT networks?",
+                    options: [
+                        "Process data closer to the source",
+                        "Store data in the cloud",
+                        "Manage power consumption",
+                        "Control network traffic"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for device management in IoT?",
+                    options: [
+                        "LwM2M",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of network slicing in IoT?",
+                    options: [
+                        "Create virtual networks for different services",
+                        "Reduce power consumption",
+                        "Increase storage capacity",
+                        "Manage device security"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which technology enables low-power wide-area networking?",
+                    options: [
+                        "LoRaWAN",
+                        "Bluetooth",
+                        "Wi-Fi",
+                        "NFC"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the main function of a network gateway in IoT?",
+                    options: [
+                        "Protocol translation and routing",
+                        "Data storage",
+                        "Power management",
+                        "User interface"
+                    ],
+                    answer: 0
+                }
+            ],
+            iot_protocols: [
+                {
+                    q: "What is the purpose of the MQTT protocol in IoT?",
+                    options: [
+                        "Message queuing and transport",
+                        "Web browsing",
+                        "File transfer",
+                        "Email communication"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which IoT protocol is designed for constrained devices and networks?",
+                    options: [
+                        "HTTP",
+                        "CoAP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main advantage of using AMQP in IoT?",
+                    options: [
+                        "Reliability and interoperability",
+                        "Simplicity",
+                        "Low power consumption",
+                        "High speed"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is best suited for IoT device management?",
+                    options: [
+                        "LwM2M",
+                        "HTTP",
+                        "MQTT",
+                        "CoAP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the primary function of DDS in IoT?",
+                    options: [
+                        "Data-centric publish-subscribe",
+                        "File transfer",
+                        "Web browsing",
+                        "Email communication"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the QoS level in MQTT that ensures exactly one delivery?",
+                    options: [
+                        "QoS 0",
+                        "QoS 1",
+                        "QoS 2",
+                        "QoS 3"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which protocol is used for secure IoT communication?",
+                    options: [
+                        "MQTT-SN",
+                        "HTTP",
+                        "DTLS",
+                        "FTP"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of WebSocket protocol in IoT?",
+                    options: [
+                        "Full-duplex communication",
+                        "File transfer",
+                        "Email delivery",
+                        "Data storage"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is designed for machine-to-machine (M2M) communication?",
+                    options: [
+                        "XMPP",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the main feature of CoAP protocol?",
+                    options: [
+                        "Lightweight RESTful interface",
+                        "High bandwidth usage",
+                        "Complex implementation",
+                        "High power consumption"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol provides service discovery in IoT?",
+                    options: [
+                        "mDNS",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of MQTT-SN?",
+                    options: [
+                        "Optimized for sensor networks",
+                        "Web browsing",
+                        "File sharing",
+                        "Video streaming"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for firmware updates in IoT devices?",
+                    options: [
+                        "OTA",
+                        "HTTP",
+                        "FTP",
+                        "SMTP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the advantage of using AMQP over MQTT?",
+                    options: [
+                        "Better interoperability",
+                        "Simpler implementation",
+                        "Lower power consumption",
+                        "Faster speed"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which protocol is used for IoT device bootstrapping?",
+                    options: [
+                        "LwM2M",
+                        "HTTP",
+                        "MQTT",
+                        "CoAP"
+                    ],
+                    answer: 0
+                }
+            ],
+            iot_connectivity: [
+                {
+                    q: "Which wireless technology is best suited for low-power IoT devices?",
+                    options: [
+                        "Bluetooth Low Energy",
+                        "Wi-Fi",
+                        "5G",
+                        "Satellite"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the maximum range of Zigbee communication?",
+                    options: [
+                        "10 meters",
+                        "100 meters",
+                        "1 kilometer",
+                        "10 kilometers"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which connectivity option is best for long-range IoT applications?",
+                    options: [
+                        "LoRaWAN",
+                        "Bluetooth",
+                        "Wi-Fi",
+                        "NFC"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the main advantage of using cellular connectivity in IoT?",
+                    options: [
+                        "Wide coverage area",
+                        "Low power consumption",
+                        "High data rate",
+                        "Low cost"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which technology is used for near-field communication in IoT?",
+                    options: [
+                        "NFC",
+                        "Wi-Fi",
+                        "LoRaWAN",
+                        "Satellite"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the typical range of Wi-Fi in IoT applications?",
+                    options: [
+                        "10 meters",
+                        "50 meters",
+                        "100 meters",
+                        "1 kilometer"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which frequency band is commonly used by Zigbee?",
+                    options: [
+                        "2.4 GHz",
+                        "5 GHz",
+                        "900 MHz",
+                        "433 MHz"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the maximum data rate of Bluetooth Low Energy?",
+                    options: [
+                        "1 Mbps",
+                        "2 Mbps",
+                        "10 Mbps",
+                        "100 Mbps"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which connectivity option provides the highest security?",
+                    options: [
+                        "Cellular",
+                        "Wi-Fi",
+                        "Bluetooth",
+                        "NFC"
+                    ],
+                    answer: 3
+                },
+                {
+                    q: "What is the main advantage of using mesh networking in IoT?",
+                    options: [
+                        "Extended range and reliability",
+                        "Higher speed",
+                        "Lower cost",
+                        "Better security"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which technology is best for battery-powered IoT devices?",
+                    options: [
+                        "LoRaWAN",
+                        "Wi-Fi",
+                        "5G",
+                        "Satellite"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the maximum number of devices in a Bluetooth mesh network?",
+                    options: [
+                        "32,767 devices",
+                        "65,535 devices",
+                        "1,000 devices",
+                        "100 devices"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which connectivity option has the lowest latency?",
+                    options: [
+                        "5G",
+                        "LoRaWAN",
+                        "Satellite",
+                        "Zigbee"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the main disadvantage of using satellite connectivity for IoT?",
+                    options: [
+                        "High cost and latency",
+                        "Limited coverage",
+                        "Low security",
+                        "Poor reliability"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which wireless technology is best for smart home applications?",
+                    options: [
+                        "Zigbee",
+                        "LoRaWAN",
+                        "Satellite",
+                        "5G"
+                    ],
+                    answer: 0
+                }
+            ],
+            arduino_pins: [
+                {
+                    q: "How many digital pins does Arduino Uno have?",
+                    options: [
+                        "14 pins",
+                        "12 pins",
+                        "16 pins",
+                        "20 pins"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the voltage level for digital HIGH in Arduino?",
+                    options: [
+                        "5V",
+                        "3.3V",
+                        "1.8V",
+                        "12V"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pins can be used for PWM output in Arduino Uno?",
+                    options: [
+                        "Pins 3, 5, 6, 9, 10, and 11",
+                        "All digital pins",
+                        "Only analog pins",
+                        "Pins 0 and 1"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the maximum current per I/O pin in Arduino Uno?",
+                    options: [
+                        "40mA",
+                        "50mA",
+                        "20mA",
+                        "100mA"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pins are used for serial communication in Arduino Uno?",
+                    options: [
+                        "Pins 0 (RX) and 1 (TX)",
+                        "Pins 2 and 3",
+                        "Pins 4 and 5",
+                        "Pins 6 and 7"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the function of the AREF pin?",
+                    options: [
+                        "Provides external reference voltage for analog inputs",
+                        "Powers the Arduino board",
+                        "Controls digital outputs",
+                        "Resets the Arduino"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pins are used for I2C communication?",
+                    options: [
+                        "A4 (SDA) and A5 (SCL)",
+                        "0 and 1",
+                        "2 and 3",
+                        "10 and 11"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the default analog reference voltage?",
+                    options: [
+                        "5V",
+                        "3.3V",
+                        "1.1V",
+                        "2.56V"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pins are used for SPI communication?",
+                    options: [
+                        "10 (SS), 11 (MOSI), 12 (MISO), 13 (SCK)",
+                        "0 and 1",
+                        "2 and 3",
+                        "A4 and A5"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What happens when a digital pin is set to INPUT mode?",
+                    options: [
+                        "High impedance state",
+                        "Outputs 5V",
+                        "Outputs 0V",
+                        "Becomes ground"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pin is connected to the built-in LED in Arduino Uno?",
+                    options: [
+                        "Pin 13",
+                        "Pin 12",
+                        "Pin 11",
+                        "Pin 10"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of the IOREF pin?",
+                    options: [
+                        "Provides reference voltage for shields",
+                        "Powers the Arduino",
+                        "Controls analog inputs",
+                        "Resets the board"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "How many analog input pins does Arduino Uno have?",
+                    options: [
+                        "6 pins",
+                        "8 pins",
+                        "4 pins",
+                        "10 pins"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the resolution of analog input pins?",
+                    options: [
+                        "10-bit (0-1023)",
+                        "8-bit (0-255)",
+                        "12-bit (0-4095)",
+                        "16-bit (0-65535)"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pin is used for the hardware reset?",
+                    options: [
+                        "RESET pin",
+                        "Pin 13",
+                        "Pin 0",
+                        "AREF pin"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the function of the Vin pin?",
+                    options: [
+                        "Input voltage when using external power source",
+                        "Ground reference",
+                        "Analog reference",
+                        "Digital reference"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pins can be used for external interrupts?",
+                    options: [
+                        "Pins 2 and 3",
+                        "Pins 0 and 1",
+                        "Pins 4 and 5",
+                        "Pins 6 and 7"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the default state of a digital pin?",
+                    options: [
+                        "INPUT (high impedance)",
+                        "OUTPUT HIGH",
+                        "OUTPUT LOW",
+                        "INPUT_PULLUP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which pin is commonly used for servo motors?",
+                    options: [
+                        "Pin 9",
+                        "Pin 8",
+                        "Pin 7",
+                        "Pin 6"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the maximum voltage that can be applied to any pin?",
+                    options: [
+                        "5V",
+                        "3.3V",
+                        "12V",
+                        "9V"
+                    ],
+                    answer: 0
+                }
+            ],
+            sensors: [
+                // Next 20 questions here
+            ],
+            networking: [
+                // Next 20 questions here
+            ],
+            iot_industry: [
+                {
+                    q: "What is the primary benefit of IoT in smart manufacturing?",
+                    options: [
+                        "Reduced labor costs only",
+                        "Improved quality control and predictive maintenance",
+                        "Increased energy consumption",
+                        "Slower production speed"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does IoT benefit smart agriculture?",
+                    options: [
+                        "By increasing manual labor",
+                        "By reducing crop variety",
+                        "By enabling precision farming and resource optimization",
+                        "By eliminating the need for farmers"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is a key feature of smart cities?",
+                    options: [
+                        "Complete elimination of human workers",
+                        "Integrated sensors and data analytics for city management",
+                        "Removal of all traditional infrastructure",
+                        "Increased energy consumption"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How is IoT transforming healthcare?",
+                    options: [
+                        "By replacing doctors completely",
+                        "Through remote patient monitoring and smart medical devices",
+                        "By eliminating the need for hospitals",
+                        "By making healthcare more expensive"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What distinguishes Industrial IoT (IIoT) from consumer IoT?",
+                    options: [
+                        "IIoT is less expensive",
+                        "IIoT focuses on manufacturing, safety, and efficiency in industrial settings",
+                        "IIoT uses simpler technology",
+                        "IIoT is only used in small factories"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does IoT improve supply chain management?",
+                    options: [
+                        "By eliminating the need for inventory",
+                        "Through real-time tracking and inventory management",
+                        "By reducing the number of suppliers",
+                        "By increasing transportation costs"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a key benefit of smart energy management systems?",
+                    options: [
+                        "Increased energy consumption",
+                        "Optimized energy usage and reduced waste",
+                        "Elimination of renewable energy",
+                        "Higher utility bills"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How is IoT revolutionizing retail?",
+                    options: [
+                        "By eliminating physical stores",
+                        "Through inventory tracking and personalized shopping experiences",
+                        "By reducing product variety",
+                        "By increasing prices"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a primary application of IoT in transportation?",
+                    options: [
+                        "Eliminating public transport",
+                        "Real-time fleet management and traffic optimization",
+                        "Increasing fuel consumption",
+                        "Removing human drivers immediately"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How do smart buildings utilize IoT?",
+                    options: [
+                        "By removing all human occupants",
+                        "Through automated HVAC, lighting, and security systems",
+                        "By eliminating windows",
+                        "Through increased energy usage"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main purpose of a smart grid?",
+                    options: [
+                        "To increase power outages",
+                        "To efficiently manage power distribution and consumption",
+                        "To eliminate renewable energy",
+                        "To increase electricity costs"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does IoT improve water management?",
+                    options: [
+                        "By reducing water supply",
+                        "Through leak detection and consumption monitoring",
+                        "By increasing water waste",
+                        "By eliminating water treatment"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What role does IoT play in waste management?",
+                    options: [
+                        "Increasing waste production",
+                        "Optimizing collection routes and monitoring fill levels",
+                        "Eliminating recycling",
+                        "Making waste collection manual"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does smart parking benefit cities?",
+                    options: [
+                        "By reducing parking spaces",
+                        "Through real-time space monitoring and reduced congestion",
+                        "By increasing parking fees",
+                        "By eliminating parking lots"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a key application of IoT in environmental monitoring?",
+                    options: [
+                        "Increasing pollution",
+                        "Real-time tracking of air quality and pollution levels",
+                        "Eliminating weather forecasts",
+                        "Reducing environmental awareness"
+                    ],
+                    answer: 1
+                }
+            ],
+            iot_security: [
+                {
+                    q: "What is the most common security concern in IoT devices?",
+                    options: [
+                        "Battery life",
+                        "Default or weak passwords",
+                        "Physical size",
+                        "Network speed"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a botnet in IoT context?",
+                    options: [
+                        "A network of smart robots",
+                        "A group of compromised IoT devices used for attacks",
+                        "A type of IoT network protocol",
+                        "A security monitoring system"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which encryption method is commonly used in IoT devices?",
+                    options: [
+                        "ROT13",
+                        "Base64",
+                        "AES-128",
+                        "Plain text"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the purpose of device authentication in IoT?",
+                    options: [
+                        "To verify the identity of devices connecting to the network",
+                        "To increase device performance",
+                        "To save battery power",
+                        "To reduce network traffic"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is a man-in-the-middle attack in IoT?",
+                    options: [
+                        "Physical tampering of devices",
+                        "Intercepting communication between two devices",
+                        "Power supply interruption",
+                        "Network bandwidth throttling"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is a best practice for IoT security?",
+                    options: [
+                        "Using default passwords",
+                        "Disabling firmware updates",
+                        "Regular security updates and patches",
+                        "Open network ports"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of a firewall in IoT security?",
+                    options: [
+                        "Monitoring device temperature",
+                        "Filtering network traffic",
+                        "Storing device data",
+                        "Managing power consumption"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is SSL/TLS used for in IoT?",
+                    options: [
+                        "Power management",
+                        "Secure communication",
+                        "Device identification",
+                        "Network speed optimization"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of end-to-end encryption in IoT?",
+                    options: [
+                        "Reducing power consumption",
+                        "Increasing network speed",
+                        "Protecting data during transmission",
+                        "Managing device connections"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "Which of the following is NOT a common IoT security threat?",
+                    options: [
+                        "DDoS attacks",
+                        "Data breaches",
+                        "Physical device damage",
+                        "Over-the-air updates"
+                    ],
+                    answer: 3
+                }
+            ],
+            iot_analytics: [
+                {
+                    q: "What is the primary purpose of IoT data analytics?",
+                    options: [
+                        "To store data",
+                        "To extract meaningful insights from IoT data",
+                        "To transmit data",
+                        "To collect data"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is edge analytics in IoT?",
+                    options: [
+                        "Analysis of data at or near the source",
+                        "Analysis of data in the cloud",
+                        "Analysis of network edges",
+                        "Analysis of user behavior"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which type of analytics focuses on what will happen in the future?",
+                    options: [
+                        "Descriptive Analytics",
+                        "Diagnostic Analytics",
+                        "Predictive Analytics",
+                        "Prescriptive Analytics"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of machine learning in IoT analytics?",
+                    options: [
+                        "To store data efficiently",
+                        "To identify patterns and make predictions",
+                        "To transmit data faster",
+                        "To reduce power consumption"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is time-series analysis in IoT?",
+                    options: [
+                        "Analysis of device time settings",
+                        "Analysis of data points collected over time",
+                        "Analysis of network timing",
+                        "Analysis of device lifespan"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is a challenge in IoT data analytics?",
+                    options: [
+                        "Too little data",
+                        "Data homogeneity",
+                        "Data volume and velocity",
+                        "Slow data processing"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the purpose of data visualization in IoT analytics?",
+                    options: [
+                        "To make data look pretty",
+                        "To help understand patterns and trends",
+                        "To store data efficiently",
+                        "To compress data"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is real-time analytics in IoT?",
+                    options: [
+                        "Analysis of historical data",
+                        "Analysis of data as it is generated",
+                        "Analysis of future data",
+                        "Analysis of stored data"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which of the following is NOT a type of IoT analytics?",
+                    options: [
+                        "Predictive Analytics",
+                        "Prescriptive Analytics",
+                        "Perceptive Analytics",
+                        "Descriptive Analytics"
+                    ],
+                    answer: 2
+                },
+                {
+                    q: "What is the role of big data in IoT analytics?",
+                    options: [
+                        "To store large amounts of data",
+                        "To process and analyze large volumes of IoT data",
+                        "To transmit data faster",
+                        "To reduce data size"
+                    ],
+                    answer: 1
+                }
+            ],
+            iot_cloud: [
+                {
+                    q: "What is the primary benefit of using cloud computing in IoT?",
+                    options: [
+                        "Reduced device cost",
+                        "Scalable storage and processing",
+                        "Better network speed",
+                        "Lower power consumption"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which cloud service model is most commonly used for IoT data storage?",
+                    options: [
+                        "IaaS",
+                        "PaaS",
+                        "SaaS",
+                        "FaaS"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is fog computing in IoT?",
+                    options: [
+                        "Cloud computing in bad weather",
+                        "Processing between cloud and edge devices",
+                        "Processing only in the cloud",
+                        "Processing only on devices"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which major cloud platform is used for IoT?",
+                    options: [
+                        "AWS IoT Core",
+                        "IoT Cloud Basic",
+                        "Cloud IoT Simple",
+                        "Basic Cloud Connect"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the role of cloud gateway in IoT?",
+                    options: [
+                        "Physical security",
+                        "Protocol translation and device connection",
+                        "Data storage",
+                        "User interface"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which feature of cloud computing helps in handling IoT data spikes?",
+                    options: [
+                        "Security",
+                        "Elasticity",
+                        "Connectivity",
+                        "Storage"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the advantage of serverless computing in IoT?",
+                    options: [
+                        "No servers are used",
+                        "Automatic scaling and pay-per-use",
+                        "Offline processing",
+                        "Better security"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which protocol is commonly used for IoT-to-cloud communication?",
+                    options: [
+                        "HTTP/HTTPS",
+                        "SMTP",
+                        "FTP",
+                        "SNMP"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the purpose of device shadows in IoT cloud platforms?",
+                    options: [
+                        "To create device backups",
+                        "To store device state information",
+                        "To improve security",
+                        "To reduce power consumption"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which cloud service is used for real-time IoT data visualization?",
+                    options: [
+                        "Storage services",
+                        "Database services",
+                        "Dashboard services",
+                        "Security services"
+                    ],
+                    answer: 2
+                }
+            ],
+            iot_privacy: [
+                {
+                    q: "What is a key privacy concern in IoT devices?",
+                    options: [
+                        "Battery life",
+                        "Data collection without user consent",
+                        "Device size",
+                        "Network speed"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is data minimization in IoT?",
+                    options: [
+                        "Collecting minimum amount of necessary data",
+                        "Using small data packets",
+                        "Reducing device memory",
+                        "Lowering network bandwidth"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "Which regulation governs IoT data privacy in Europe?",
+                    options: [
+                        "HIPAA",
+                        "GDPR",
+                        "CCPA",
+                        "PIPEDA"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is informed consent in IoT context?",
+                    options: [
+                        "Device agreement to connect",
+                        "User understanding and agreement to data collection",
+                        "Network permission",
+                        "Cloud storage agreement"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of privacy by design in IoT?",
+                    options: [
+                        "Making devices look private",
+                        "Incorporating privacy features from the start",
+                        "Hiding devices from view",
+                        "Reducing device visibility"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which ethical consideration is most important in IoT healthcare devices?",
+                    options: [
+                        "Device cost",
+                        "Patient data confidentiality",
+                        "Device size",
+                        "Battery life"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the right to be forgotten in IoT context?",
+                    options: [
+                        "Right to disconnect devices",
+                        "Right to have personal data erased",
+                        "Right to turn off devices",
+                        "Right to change passwords"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is data anonymization in IoT?",
+                    options: [
+                        "Encrypting data",
+                        "Removing identifying information",
+                        "Storing data offline",
+                        "Compressing data"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which is an ethical concern in IoT surveillance?",
+                    options: [
+                        "Camera quality",
+                        "Privacy invasion",
+                        "Power consumption",
+                        "Storage capacity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is transparency in IoT ethics?",
+                    options: [
+                        "Clear device casing",
+                        "Clear communication about data collection and use",
+                        "Visible sensors",
+                        "Open source hardware"
+                    ],
+                    answer: 1
+                }
+            ],
+            iot_standards: [
+                {
+                    q: "Which organization is a major IoT standards body?",
+                    options: [
+                        "ISO (International Organization for Standardization)",
+                        "ABC (Artificial Body of Control)",
+                        "XYZ Standards Group",
+                        "Global Device Association"
+                    ],
+                    answer: 0
+                },
+                {
+                    q: "What is the primary purpose of IoT communication standards?",
+                    options: [
+                        "To make systems more complex",
+                        "To ensure interoperability between different devices and systems",
+                        "To limit device functionality",
+                        "To reduce device security"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Which is a key aspect of IoT security standards?",
+                    options: [
+                        "Making devices harder to use",
+                        "Defining minimum security requirements and best practices",
+                        "Increasing device cost",
+                        "Limiting device functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main focus of data protection regulations in IoT?",
+                    options: [
+                        "Increasing data collection",
+                        "Protecting user privacy and securing sensitive information",
+                        "Making data public",
+                        "Reducing data storage"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Why are industry-specific IoT standards important?",
+                    options: [
+                        "To make industries more complex",
+                        "To address unique requirements and challenges of different sectors",
+                        "To increase costs",
+                        "To reduce innovation"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of IoT device certification?",
+                    options: [
+                        "To increase device cost",
+                        "To verify compliance with standards and regulations",
+                        "To make devices harder to use",
+                        "To limit device features"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What do interoperability standards ensure in IoT?",
+                    options: [
+                        "Devices work only with specific brands",
+                        "Different devices and systems can work together seamlessly",
+                        "Devices become more expensive",
+                        "Systems become more complex"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main goal of Quality of Service (QoS) standards in IoT?",
+                    options: [
+                        "To make services more expensive",
+                        "To ensure reliable and consistent performance",
+                        "To reduce service quality",
+                        "To limit service availability"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Why are energy efficiency standards important for IoT devices?",
+                    options: [
+                        "To increase power consumption",
+                        "To optimize battery life and reduce environmental impact",
+                        "To make devices larger",
+                        "To increase device cost"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the primary focus of IoT safety standards?",
+                    options: [
+                        "Making devices more complex",
+                        "Ensuring devices operate without causing harm to users or environment",
+                        "Increasing device cost",
+                        "Limiting device functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What do radio frequency regulations govern in IoT?",
+                    options: [
+                        "Device color",
+                        "Wireless communication frequencies and power levels",
+                        "Device size",
+                        "Battery type"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of network protocol standards in IoT?",
+                    options: [
+                        "To make networks slower",
+                        "To ensure consistent and reliable communication between devices",
+                        "To increase network complexity",
+                        "To reduce network security"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "Why are data format standards important in IoT?",
+                    options: [
+                        "To make data more complex",
+                        "To ensure consistent data interpretation across different systems",
+                        "To reduce data accuracy",
+                        "To increase storage requirements"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main purpose of device management standards?",
+                    options: [
+                        "To make management more difficult",
+                        "To ensure consistent device monitoring and control",
+                        "To increase management costs",
+                        "To reduce device functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the role of testing and validation standards in IoT?",
+                    options: [
+                        "To make testing more complex",
+                        "To ensure devices meet quality and performance requirements",
+                        "To increase testing costs",
+                        "To reduce product reliability"
+                    ],
+                    answer: 1
+                }
+            ],
+            iot_architecture: [
+                {
+                    q: "What is the main purpose of IoT Reference Architecture?",
+                    options: [
+                        "To make systems more complex",
+                        "To provide a standardized framework for IoT system design",
+                        "To increase development costs",
+                        "To limit system functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How do microservices benefit IoT systems?",
+                    options: [
+                        "By making systems larger",
+                        "By enabling modular, scalable, and maintainable applications",
+                        "By increasing complexity",
+                        "By reducing functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the primary advantage of edge computing in IoT?",
+                    options: [
+                        "Increased network traffic",
+                        "Reduced latency and bandwidth usage through local processing",
+                        "Higher costs",
+                        "More complex maintenance"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a key benefit of cloud integration patterns in IoT?",
+                    options: [
+                        "Increased data loss",
+                        "Seamless connection between IoT devices and cloud services",
+                        "Higher latency",
+                        "Reduced scalability"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What characterizes IoT data flow architecture?",
+                    options: [
+                        "Random data movement",
+                        "Structured movement of data from sensors to storage and processing",
+                        "Data loss",
+                        "Increased complexity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main goal of scalability patterns in IoT?",
+                    options: [
+                        "To limit system growth",
+                        "To handle increasing loads and devices efficiently",
+                        "To reduce performance",
+                        "To increase costs"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does fault tolerance improve IoT systems?",
+                    options: [
+                        "By creating more failures",
+                        "By ensuring system continues working despite component failures",
+                        "By increasing downtime",
+                        "By reducing reliability"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the purpose of load balancing in IoT?",
+                    options: [
+                        "To overload systems",
+                        "To distribute workload evenly across resources",
+                        "To increase system strain",
+                        "To reduce efficiency"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does service discovery benefit IoT systems?",
+                    options: [
+                        "By hiding services",
+                        "By automatically finding and connecting to available services",
+                        "By increasing complexity",
+                        "By reducing connectivity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the importance of device registration in IoT?",
+                    options: [
+                        "To limit device access",
+                        "To securely identify and manage devices in the network",
+                        "To increase complexity",
+                        "To reduce security"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does message queuing help in IoT systems?",
+                    options: [
+                        "By losing messages",
+                        "By ensuring reliable message delivery and handling",
+                        "By increasing delays",
+                        "By reducing throughput"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a key feature of IoT data storage patterns?",
+                    options: [
+                        "Data loss",
+                        "Efficient storage and retrieval of large amounts of IoT data",
+                        "Increased complexity",
+                        "Reduced accessibility"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What role do API gateways play in IoT?",
+                    options: [
+                        "Blocking APIs",
+                        "Managing and securing API access to IoT services",
+                        "Increasing vulnerability",
+                        "Reducing functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What characterizes event-driven architecture in IoT?",
+                    options: [
+                        "Ignoring events",
+                        "Responding to real-time events and state changes",
+                        "Increasing delays",
+                        "Reducing responsiveness"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main focus of IoT security architecture?",
+                    options: [
+                        "Creating vulnerabilities",
+                        "Implementing comprehensive security measures across the system",
+                        "Reducing protection",
+                        "Increasing risks"
+                    ],
+                    answer: 1
+                }
+            ],
+            iot_future: [
+                {
+                    q: "How is AI enhancing IoT systems?",
+                    options: [
+                        "By making systems simpler",
+                        "By enabling intelligent decision-making and predictive analytics",
+                        "By reducing functionality",
+                        "By increasing manual work"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main advantage of 5G in IoT?",
+                    options: [
+                        "Lower speeds",
+                        "Higher speeds, lower latency, and massive device connectivity",
+                        "Reduced coverage",
+                        "Less reliability"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How does blockchain benefit IoT?",
+                    options: [
+                        "By reducing security",
+                        "By providing secure, decentralized device communication",
+                        "By increasing costs",
+                        "By limiting connectivity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is a digital twin in IoT?",
+                    options: [
+                        "A physical copy of a device",
+                        "A virtual representation of a physical device or system",
+                        "A backup device",
+                        "A network duplicate"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What characterizes autonomous systems in IoT?",
+                    options: [
+                        "Constant human intervention",
+                        "Self-operating and decision-making capabilities",
+                        "Manual control only",
+                        "Reduced functionality"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is smart dust in IoT?",
+                    options: [
+                        "Regular dust particles",
+                        "Microscopic IoT sensors that can be distributed in an environment",
+                        "Air pollution",
+                        "Cleaning technology"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How is IoT being used in space applications?",
+                    options: [
+                        "Not at all",
+                        "For satellite communication and space exploration monitoring",
+                        "Only for entertainment",
+                        "To reduce space research"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is Quantum IoT?",
+                    options: [
+                        "Regular IoT devices",
+                        "Integration of quantum computing principles with IoT",
+                        "Smaller IoT devices",
+                        "Simplified IoT"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is Bio-IoT?",
+                    options: [
+                        "Regular medical devices",
+                        "Integration of biological systems with IoT technology",
+                        "Standard sensors",
+                        "Basic monitoring"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is the main focus of Green IoT?",
+                    options: [
+                        "Using green colored devices",
+                        "Environmental sustainability and energy efficiency",
+                        "Increasing power consumption",
+                        "Regular IoT applications"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What characterizes Cognitive IoT?",
+                    options: [
+                        "Basic automation",
+                        "Learning and adaptive capabilities using AI",
+                        "Manual programming",
+                        "Fixed responses"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is Social IoT?",
+                    options: [
+                        "Regular social media",
+                        "IoT devices that can establish social relationships",
+                        "Human networking",
+                        "Basic connectivity"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What is Ambient Intelligence in IoT?",
+                    options: [
+                        "Basic automation",
+                        "Seamless, intuitive interaction between humans and environment",
+                        "Manual control",
+                        "Standard interfaces"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "How is Extended Reality (XR) being integrated with IoT?",
+                    options: [
+                        "It isn't being integrated",
+                        "Combining AR/VR with IoT for immersive experiences",
+                        "Basic displays only",
+                        "Simple visualizations"
+                    ],
+                    answer: 1
+                },
+                {
+                    q: "What are self-healing networks in IoT?",
+                    options: [
+                        "Regular networks",
+                        "Networks that can automatically detect and fix issues",
+                        "Manual repair systems",
+                        "Basic connectivity"
+                    ],
+                    answer: 1
+                }
+            ]
+        };
+
+        let userAnswers = {};  // Store user answers across sections
+
+        function displayQuiz() {
+            const section = document.getElementById('section-select').value;
+            const questions = quizData[section];
+            let html = '';
+            
+            questions.forEach((q, i) => {
+                const questionId = `${section}-${i}`;
+                html += `
+                    <div class="question" id="${questionId}-container">
+                        <p>${q.q}</p>
+                        <div class="options">
+                            ${q.options.map((opt, j) => `
+                                <div class="option-container">
+                                    <input type="radio" name="${questionId}" value="${opt}" id="${questionId}-${j}" 
+                                        ${userAnswers[questionId] === opt ? 'checked' : ''} 
+                                        onchange="saveAnswer('${questionId}', this.value)">
+                                    <label for="${questionId}-${j}">${opt}</label>
+                                    <span class="answer-indicator" id="${questionId}-indicator-${j}"></span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="button-group">
+                            <button class="help-button" onclick="showAnswer('${questionId}')">Help</button>
+                        </div>
+                        <div id="${questionId}-answer" class="answer-text">Correct Answer: ${q.options[q.answer]}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('quiz-container').innerHTML = html;
+            updateProgress();
+        }
+
+        function saveAnswer(questionId, value) {
+            userAnswers[questionId] = value;
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const section = document.getElementById('section-select').value;
+            const questions = quizData[section];
+            let answeredQuestions = 0;
+            let correctAnswers = 0;
+            
+            questions.forEach((q, index) => {
+                const questionId = `${section}-${index}`;
+                if (userAnswers[questionId] !== undefined) {
+                    answeredQuestions++;
+                    if (userAnswers[questionId] === q.options[q.answer]) {
+                        correctAnswers++;
+                    }
+                }
+            });
+            
+            document.getElementById('section-progress').textContent = `${answeredQuestions}/${questions.length}`;
+            document.getElementById('current-score').textContent = `${correctAnswers}/${questions.length}`;
+            
+            // Update total progress
+            let totalAnswered = 0;
+            let totalCorrect = 0;
+            let totalQuestions = 0;
+            
+            Object.keys(quizData).forEach(section => {
+                quizData[section].forEach((q, index) => {
+                    totalQuestions++;
+                    const questionId = `${section}-${index}`;
+                    if (userAnswers[questionId] !== undefined) {
+                        totalAnswered++;
+                        if (userAnswers[questionId] === q.options[q.answer]) {
+                            totalCorrect++;
+                        }
+                    }
+                });
+            });
+            
+            document.getElementById('answered-count').textContent = totalAnswered;
+            document.getElementById('remaining-count').textContent = totalQuestions - totalAnswered;
+            document.getElementById('total-score').textContent = `${totalCorrect}/${totalQuestions}`;
+            
+            const progressPercent = (totalAnswered / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+        }
+
+        function previousSection() {
+            const select = document.getElementById('section-select');
+            const currentIndex = select.selectedIndex;
+            if (currentIndex > 0) {
+                select.selectedIndex = currentIndex - 1;
+                displayQuiz();
+            }
+        }
+
+        function nextSection() {
+            const select = document.getElementById('section-select');
+            const currentIndex = select.selectedIndex;
+            if (currentIndex < select.options.length - 1) {
+                select.selectedIndex = currentIndex + 1;
+                displayQuiz();
+            }
+        }
+
+        function showAnswer(questionId) {
+            const answerText = document.getElementById(`${questionId}-answer`);
+            if (answerText.style.display === 'block') {
+                answerText.style.display = 'none';
+            } else {
+                answerText.style.display = 'block';
+            }
+        }
+
+        function submitQuiz() {
+            const section = document.getElementById('section-select').value;
+            const questions = quizData[section];
+            let score = 0;
+            
+            questions.forEach((q, index) => {
+                const questionId = `${section}-${index}`;
+                if (userAnswers[questionId] === q.options[q.answer]) {
+                    score++;
+                }
+            });
+            
+            alert(`Your score for this section: ${score}/${questions.length}`);
+            updateProgress();
+        }
+
+        function checkAllSections() {
+            let totalScore = 0;
+            let totalQuestions = 0;
+            
+            Object.keys(quizData).forEach(section => {
+                quizData[section].forEach((q, index) => {
+                    totalQuestions++;
+                    const questionId = `${section}-${index}`;
+                    if (userAnswers[questionId] === q.options[q.answer]) {
+                        totalScore++;
+                    }
+                });
+            });
+            
+            alert(`Total Quiz Score: ${totalScore}/${totalQuestions}`);
+        }
+
+        function showAllAnswers() {
+            const section = document.getElementById('section-select').value;
+            const questions = quizData[section];
+            
+            questions.forEach((q, index) => {
+                const questionId = `${section}-${index}`;
+                const answerText = document.getElementById(`${questionId}-answer`);
+                answerText.style.display = 'block';
+            });
+        }
+
+        function resetQuiz() {
+            if (confirm('Are you sure you want to reset all your answers?')) {
+                userAnswers = {};
+                displayQuiz();
+                updateProgress();
+            }
+        }
+
+        // Initialize the quiz
+        document.getElementById('section-select').addEventListener('change', displayQuiz);
+        displayQuiz();
+    </script>
+</body>
+</html>
